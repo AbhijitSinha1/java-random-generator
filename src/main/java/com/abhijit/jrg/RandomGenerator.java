@@ -11,7 +11,7 @@ public class RandomGenerator {
 	 * @return an alphabet between <b>a - z</b>
 	 */
 	public static Character character() {
-		return (char) ('a' + (integer(26)));
+		return (char) ('a' + (number(26)));
 	}
 
 	/**
@@ -20,7 +20,7 @@ public class RandomGenerator {
 	 * @return a character from the array of characters
 	 */
 	public static Character character(char... characters) {
-		return characters[integer(characters.length)];
+		return characters[number(characters.length)];
 	}
 
 	/**
@@ -67,8 +67,8 @@ public class RandomGenerator {
 	 *            the maximum value the random integer can take (minimum is 0)
 	 * @return a positive random integer
 	 */
-	public static Integer integer(int limit) {
-		return integer(0, limit);
+	public static Integer number(int limit) {
+		return number(0, limit);
 	}
 
 	/**
@@ -78,8 +78,8 @@ public class RandomGenerator {
 	 *            the maximum value the random integer can take
 	 * @return a positive random integer
 	 */
-	public static Integer integer(int minLimit, int maxLimit) {
-		return number(minLimit, maxLimit).intValue();
+	public static Integer number(int minLimit, int maxLimit) {
+		return number((double) minLimit, (double) maxLimit).intValue();
 	}
 
 	/**
@@ -87,10 +87,10 @@ public class RandomGenerator {
 	 *            an array of integer limits
 	 * @return list of random integers
 	 */
-	public static List<Integer> integers(int... limits) {
+	public static List<Integer> numbers(int... limits) {
 		List<Integer> list = new ArrayList<>(limits.length);
 		for (int limit : limits) {
-			list.add(integer(limit));
+			list.add(number(limit));
 		}
 		return list;
 	}
@@ -101,7 +101,7 @@ public class RandomGenerator {
 	 * @return a positive random number
 	 */
 	public static Double number(double limit) {
-		return number(0, limit);
+		return number((double) 0, limit);
 	}
 
 	/**
@@ -128,4 +128,62 @@ public class RandomGenerator {
 		return list;
 	}
 
+	/**
+	 * @return a random number generator
+	 */
+	public static <T extends Number> RandomNumberBuilder<T> numbers(Class<T> clz) {
+		return new RandomNumberBuilder<T>(clz);
+	}
+
+	/**
+	 * @param minLimit
+	 * @param maxLimit
+	 * @param clz
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T extends Number> T number(T minLimit, T maxLimit, Class<T> clz) {
+
+		switch (clz.getName()) {
+			case "java.lang.Integer": {
+				return (T) number((Integer) minLimit, (Integer) maxLimit);
+			}
+			case "java.lang.Double": {
+				return (T) number((Double) minLimit, (Double) maxLimit);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param rows
+	 *            number of rows in the matrix
+	 * @param cols
+	 *            number of columns in the matrix
+	 * @param limit
+	 *            maximum value of each integer entry (minimum is 0)
+	 * @return an integer matrix
+	 */
+	public static Integer[][] matrix(int rows, int cols, int limit) {
+		Integer[][] arr = new Integer[rows][cols];
+		for (int i = 0; i < rows; i++) {
+			arr[i] = array(cols, limit);
+		}
+		return arr;
+	}
+
+	/**
+	 * @param size
+	 *            size of the array
+	 * @param limit
+	 *            maximum value of each entry (minimum is 0)
+	 * @return an integer array
+	 */
+	private static Integer[] array(int size, int limit) {
+		Integer[] arr = new Integer[size];
+		for (int i = 0; i < size; i++) {
+			arr[i] = number(limit);
+		}
+		return arr;
+	}
 }
