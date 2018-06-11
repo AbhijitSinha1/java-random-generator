@@ -227,4 +227,18 @@ public class RandomGenerator {
 		}
 		return arr;
 	}
+
+	/**
+	 * @param list
+	 *            list of objects
+	 * @return randomized list of objects
+	 */
+	public static <T> List<T> randomize(List<T> list) {
+		List<T> result = new ArrayList<>();
+		List<T> original = new ArrayList<>(list);
+		while (original.size() > 0) {
+			result.add(original.remove((int) number(original.size())));
+		}
+		return result;
+	}
 }
