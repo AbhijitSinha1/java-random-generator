@@ -24,6 +24,15 @@ public class RandomGenerator {
 	}
 
 	/**
+	 * @param string
+	 *            the input string from which a character needs to be chosen
+	 * @return a character from the input string
+	 */
+	public static Character character(String string) {
+		return string.charAt(number(string.length()));
+	}
+
+	/**
 	 * @param stringLength
 	 *            number of characters in the string
 	 * @return a string with <b>stringLength</b> number of characters
@@ -60,6 +69,38 @@ public class RandomGenerator {
 			list.add(string(count));
 		}
 		return list;
+	}
+
+	/**
+	 * @param string
+	 *            string from where characters are chosen for the random string
+	 * @param size
+	 *            random string size
+	 * @return random string of size: <b>size</b> with characters from <b>string</b>
+	 */
+	public static String string(String string, int size) {
+		return numbers(Integer.class).setMaxlimit(string.length())
+		    .setMinlimit(0)
+		    .setSize(size)
+		    .build()
+		    .stream()
+		    .map(i -> String.valueOf(string.charAt(i)))
+		    .reduce((a, b) -> a + b)
+		    .get();
+	}
+
+	/**
+	 * @param string
+	 *            string from where the characters will be chosen
+	 * @param wordCount
+	 *            number of words generated
+	 * @return list of words generated
+	 */
+	public static List<String> strings(String string, int wordCount) {
+		return IntStream.range(0, wordCount)
+		    .boxed()
+		    .map(i -> string(string, 10))
+		    .collect(Collectors.toList());
 	}
 
 	/**
