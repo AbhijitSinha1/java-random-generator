@@ -80,13 +80,11 @@ public class RandomGenerator {
 	 */
 	public static String string(String string, int size) {
 		return numbers(Integer.class).setMaxlimit(string.length())
-		    .setMinlimit(0)
-		    .setSize(size)
-		    .build()
-		    .stream()
-		    .map(i -> String.valueOf(string.charAt(i)))
-		    .reduce((a, b) -> a + b)
-		    .get();
+			.setMinlimit(0)
+			.setSize(size)
+			.toList(i -> String.valueOf(string.charAt(i)))
+			.stream()
+			.reduce("", (a, b) -> String.format("%s%s", a, b));
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package com.abhijit.jrg;
 
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,19 +32,29 @@ public class RandomNumberBuilder<T extends Number> {
 		return this;
 	}
 
-	public List<T> build() {
+	public List<T> toList() {
 		return IntStream.range(0, size)
-		    .boxed()
-		    .map(i -> RandomGenerator.number(minLimit, maxLimit, clz))
-		    .collect(Collectors.toList());
+			.boxed()
+			.map(i -> RandomGenerator.number(minLimit, maxLimit, clz))
+			.collect(Collectors.toList());
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <R> List<R> build(Function<? extends T, ? extends R> mapper) {
+	public <R> List<R> toList(Function<? extends T, ? extends R> mapper) {
 		return IntStream.range(0, size)
-				.boxed()
-				.map(i -> RandomGenerator.number(minLimit, maxLimit, clz))
-				.map((Function<? super T, ? extends R>) mapper)
-				.collect(Collectors.toList());
+			.boxed()
+			.map(i -> RandomGenerator.number(minLimit, maxLimit, clz))
+			.map((Function<? super T, ? extends R>) mapper)
+			.collect(Collectors.toList());
+	}
+
+	@SuppressWarnings("unchecked")
+	public T[] toArray() {
+		List<T> list = toList();
+		T[] array = (T[]) Array.newInstance(clz, list.size());
+		for (int i = 0; i < list.size(); i++) {
+			array[i] = list.get(i);
+		}
+		return array;
 	}
 }
