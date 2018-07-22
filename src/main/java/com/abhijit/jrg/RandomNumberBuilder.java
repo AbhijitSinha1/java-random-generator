@@ -15,6 +15,8 @@ public class RandomNumberBuilder<T extends Number> {
 	public RandomNumberBuilder(Class<T> clz) {
 		this.clz = clz;
 		size = 10;
+		minLimit = null;
+		maxLimit = null;
 	}
 
 	public RandomNumberBuilder<T> setSize(int size) {

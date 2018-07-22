@@ -184,12 +184,14 @@ public class RandomGenerator {
 	public static <T extends Number> T number(T minLimit, T maxLimit, Class<T> clz) {
 
 		switch (clz.getName()) {
-			case "java.lang.Integer": {
-				return (T) number((Integer) minLimit, (Integer) maxLimit);
-			}
-			case "java.lang.Double": {
-				return (T) number((Double) minLimit, (Double) maxLimit);
-			}
+		case "java.lang.Integer": {
+			return (T) number((Integer) (minLimit == null ? Integer.MIN_VALUE : minLimit),
+				(Integer) (maxLimit == null ? Integer.MAX_VALUE : maxLimit));
+		}
+		case "java.lang.Double": {
+			return (T) number((Double) (minLimit == null ? Double.MIN_VALUE : minLimit),
+				(Double) (maxLimit == null ? Double.MAX_VALUE : maxLimit));
+		}
 		}
 		return null;
 	}
