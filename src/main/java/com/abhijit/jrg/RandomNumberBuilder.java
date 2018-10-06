@@ -40,7 +40,7 @@ public class RandomNumberBuilder<T extends Number> {
 			.map(i -> RandomGenerator.number(minLimit, maxLimit, clz))
 			.collect(Collectors.toList());
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <R> List<R> toList(Function<? extends T, ? extends R> mapper) {
 		return IntStream.range(0, size)
@@ -58,5 +58,13 @@ public class RandomNumberBuilder<T extends Number> {
 			array[i] = list.get(i);
 		}
 		return array;
+	}
+
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		for (T num : toList()) {
+			sb.append(num);
+		}
+		return sb.toString();
 	}
 }
